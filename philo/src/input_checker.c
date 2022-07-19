@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../philo.h"
 
 // number_of_philosophers time_to_die time_to_eat time_to_sleep
 // [number_of_times_each_philosopher_must_eat]
@@ -23,7 +23,7 @@
 //• Philosopher number 1 sits next to philosopher number number_of_philosophers.
 //  Any other philosopher number N sits between philosopher number N - 1 and philosopher number N + 1.
 
-int param_validator(t_args *params)
+int param_validator(t_params *params)
 {
 	if (params->num_of_philo <= 0)
 		printf("Number of philosophers must be natural number\n");
@@ -33,7 +33,7 @@ int param_validator(t_args *params)
 		printf("Time to eat must be natural number\n");
 	else if (params->time_to_sleep <= 0)
 		printf("Time to sleep must be natural number\n");
-	else if (params->num_of_meals < 0)
+	else if (params->num_of_meals <= 0 && params->num_of_meals != -1)
 		printf("Number of times each philosopher must eat must"
 			   " be natural number\n");
 	else
@@ -41,19 +41,21 @@ int param_validator(t_args *params)
 	return (0);
 }
 
-void params_constructor(int argc, char **argv, t_args *params)
+void params_constructor(int argc, char **argv, t_params *params)
 {
 	params->num_of_philo = ft_atoi(argv[1]);
 	params->time_to_die = ft_atoi(argv[2]);
 	params->time_to_eat = ft_atoi(argv[3]);
 	params->time_to_sleep = ft_atoi(argv[4]);
-	if (argc == 6)
+	params->num_of_meals = -1;
+	if (argc == 6) {
 		params->num_of_meals = ft_atoi(argv[5]);
-	else
-		params->num_of_meals = 0;
+		if (params->num_of_meals <= 0)
+			params->num_of_meals = -2;
+	}
 }
 
-int validator(int argc, char **argv, t_args *params)
+int validator(int argc, char **argv, t_params *params)
 {
 	int param_err_code;
 
@@ -67,14 +69,21 @@ int validator(int argc, char **argv, t_args *params)
 	return param_err_code;
 }
 
-int input_checker(int argc, char **argv, t_args *args)
+int input_checker(int argc, char **argv, t_params *args)
 {
 	int err_num;
 
 	err_num = validator(argc, argv, args);
 	if (err_num != 1)
-	{
-		printf("USAGE: ./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
-	}
+		printf("USAGE: %s./philo%s %snumber_of_philosophers%s"
+			   " %stime_to_die%s %stime_to_eat%s "
+			   "%stime_to_sleep%s "
+			   "[%snumber_of_times_each_philosopher_must_eat%s]\n",
+			   "\033[1m", "\033[0m",
+			   "\033[4m", "\033[0m",
+			   "\033[4m", "\033[0m",
+			   "\033[4m", "\033[0m",
+			   "\033[4m", "\033[0m",
+			   "\033[4m", "\033[0m");
 	return err_num;
 }

@@ -51,9 +51,13 @@ int		input_checker(int argc, char **argv, t_params *args);
 int		start_philo(t_params *args);
 
 void	*philo_thread(void *vargp);
+
 // additional functions
 int		ft_atoi(const char *str);
 
 unsigned long long get_time(void);
 
+void	print_with_time(t_philo *philo, char *msg, t_ull ms, char *color);
+
+void	wait_milliseconds(int milliseconds);
 #endif

@@ -1,27 +1,31 @@
 #include "../philo.h"
-void	printing(t_philo *philo, char *philo_status, char *color)
-{
-	pthread_mutex_lock(&philo->params->stdout_mutex);
-	printf("|%lld ms| %d | %sis %s%s\n", get_time() - philo->params->startup,
-		   (int ) philo->id, color, philo_status, "\033[0m");
-	pthread_mutex_unlock(&philo->params->stdout_mutex);
-}
 
 void	philo_thinking(t_philo *philo)
 {
-	printing(philo, "thinking", "\033[1;103m");
+	t_ull time;
+
+	time = get_time() - philo->params->startup;
+	print_with_time(philo, "is thinking", time, "\033[1;93m");
 }
 
 void	philo_sleeping(t_philo *philo)
 {
-	printing(philo, "sleeping", "\033[1;107m");
-	usleep(philo->params->time_to_sleep * 1000);
+	t_ull time;
+
+	time = get_time() - philo->params->startup;
+	print_with_time(philo, "is sleeping", time, "\033[1;97m");
+	wait_milliseconds(philo->params->time_to_sleep);
 }
 
 void	philo_eating(t_philo *philo)
 {
-	printing(philo, "eating", "\033[1;102m");
-	usleep(philo->params->time_to_eat * 1000);
+	t_ull time;
+
+	time = get_time() - philo->params->startup;
+	philo->num_ate += 1;
+	print_with_time(philo, "is eating", time, "\033[1;92m");
+	philo->last_ate = get_time();
+	wait_milliseconds(philo->params->time_to_eat);
 }
 
 void	philo_wait(t_philo *philo)
@@ -31,13 +35,21 @@ void	philo_wait(t_philo *philo)
 
 int	check_death(t_philo *philo)
 {
-	(void) philo;
+	if (philo->last_ate + philo->params->time_to_die <= get_time() || philo->params->is_someone_dead) {
+		return (0);
+	}
 	return (1);
 }
 
 void	wait_at_start(t_philo *philo)
 {
-//	if (philo->id %)
+	if (philo->params->num_of_philo > 1)
+	{
+		if (philo->id % 2 == 0)
+			wait_milliseconds(philo->params->time_to_eat);
+//		else if (philo->id % 2 == 1)
+//			wait_milliseconds(philo->params->time_to_eat);
+	}
 	(void) philo;
 }
 

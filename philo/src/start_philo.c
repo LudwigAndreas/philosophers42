@@ -28,11 +28,11 @@ t_philo	*philo_constructor(t_params *params)
 	forks = forks_constructor(params);
 	while (i <= params->num_of_philo)
 	{
-		philos[i].id = i;
-		philos[i].last_ate = 0;
-		philos[i].num_ate = 0;
-		philos[i].params = params;
-		philos[i].fork = forks;
+		philos[i - 1].id = i;
+		philos[i - 1].last_ate = get_time();
+		philos[i - 1].num_ate = 0;
+		philos[i - 1].params = params;
+		philos[i - 1].fork = forks;
 		i++;
 	}
 	return (philos);
@@ -53,11 +53,18 @@ int start_philo(t_params *args)
 	args->startup = get_time();
 	while (i <= args->num_of_philo)
 	{
-		status = pthread_create(&(philos[i].tid), NULL, philo_thread, (void *) &philos[i]);
+		status = pthread_create(&(philos[i - 1].tid), NULL, philo_thread, (void *) &philos[i - 1]);
 		if (status != 0)
 			return (0);
 		i++;
 	}
-	while (args->is_someone_dead == 0){}
+	while (1)
+	{
+		if (args->is_someone_dead != 0)
+		{
+			print_with_time(&philos[args->is_someone_dead], "died", get_time() - philos[args->is_someone_dead].params->startup, "\033[1;91m");
+			return (0);
+		}
+	}
 	return (0);
 }

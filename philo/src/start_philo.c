@@ -1,5 +1,27 @@
 #include "../philo.h"
 
+int aliveness(t_params *params, t_philo *philos)
+{
+	int	i;
+
+	if (params->satisfied == params->num_of_philo)
+		return (0);
+	i = 0;
+	while (i < params->num_of_philo)
+	{
+		if (philos[i].last_ate + params->time_to_die <= get_time() || params->is_someone_dead)
+		{
+			params->is_someone_dead = 1;
+			pthread_mutex_lock(&params->stdout_mutex);
+			printf("| %-6llums | %-2lu | %s%s%s\t\t|\n", get_time() - params->startup, (unsigned long ) i + 1,
+				   ANSI_RED, "died", ANSI_RESET);
+//			pthread_mutex_unlock(&params->stdout_mutex);
+			return (0);
+		}
+	}
+	return (1);
+}
+
 t_mutex	*forks_constructor(t_params *params)
 {
 	t_mutex *forks;
@@ -38,11 +60,11 @@ t_philo	*philo_constructor(t_params *params)
 	return (philos);
 }
 
-int start_philo(t_params *args)
+t_philo	*start_philo(t_params *args)
 {
-	t_philo *philos;
 	int		i;
 	int		status;
+	t_philo *philos;
 
 	args->is_someone_dead = 0;
 	args->satisfied = 0;
@@ -58,13 +80,5 @@ int start_philo(t_params *args)
 			return (0);
 		i++;
 	}
-	while (1)
-	{
-		if (args->is_someone_dead != 0)
-		{
-			print_with_time(&philos[args->is_someone_dead], "died", get_time() - philos[args->is_someone_dead].params->startup, "\033[1;91m");
-			return (0);
-		}
-	}
-	return (0);
+	return (philos);
 }

@@ -11,8 +11,8 @@ void	print_with_time(t_philo *philo, char *msg, t_ull ms, char *color)
 {
 	pthread_mutex_lock(&philo->params->stdout_mutex);
 	if (!philo->params->is_someone_dead)
-		printf("| %llums \t| %-2lu | %s%s%s\t|\n", ms, philo->id,
-			   color, msg, "\033[0m");
+		printf("| %-6llums | %-2lu | %s%s%s\t|\n", ms, philo->id,
+			   color, msg, ANSI_RESET);
 	pthread_mutex_unlock(&philo->params->stdout_mutex);
 }
 
@@ -24,3 +24,13 @@ void	wait_milliseconds(int milliseconds)
 	while (get_time() < curr_time + milliseconds)
 		usleep(500);
 }
+
+//void	pick_forks(t_philo *philo)
+//{
+//
+//}
+//
+//void	raise_forks(t_philo *philo)
+//{
+//
+//}

@@ -12,6 +12,14 @@
 # include <sys/time.h>
 # include <pthread.h>
 
+# define ANSI_RED "\033[91m"
+# define ANSI_GREEN "\033[1;92m"
+# define ANSI_WHITE "\033[1;97m"
+# define ANSI_YELLOW "\033[1;93m"
+# define ANSI_CYAN "\033[1;96m"
+# define ANSI_RESET "\033[0m"
+
+
 typedef unsigned long long t_ull;
 
 typedef pthread_mutex_t t_mutex;
@@ -48,9 +56,19 @@ int		validator(int argc, char **argv, t_params *params);
 
 int		input_checker(int argc, char **argv, t_params *args);
 
-int		start_philo(t_params *args);
+t_philo	*start_philo(t_params *args);
 
 void	*philo_thread(void *vargp);
+
+int aliveness(t_params *params, t_philo *philos);
+
+void	philo_thinking(t_philo *philo);
+
+void	philo_sleeping(t_philo *philo);
+
+void	philo_eating(t_philo *philo);
+
+void	philo_wait(t_philo *philo);
 
 // additional functions
 int		ft_atoi(const char *str);

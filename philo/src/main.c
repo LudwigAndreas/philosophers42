@@ -12,9 +12,18 @@ void args_printer(t_params *args)
 
 int main(int argc, char **argv)
 {
-	t_params args;
+	t_params	args;
+	t_philo		*philos;
 	if (input_checker(argc, argv, &args) != 1)
 		return (0);
 	args_printer(&args);
-    start_philo(&args);
+    philos = start_philo(&args);
+	while (aliveness(&args, philos))
+	{
+		usleep(500);
+	}
+//	destroy_mutex(args, philos);
+//	pthread_mutex_destroy(&args.stdout_mutex);
+	usleep(10000);
+	return (0);
 }

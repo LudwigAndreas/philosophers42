@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lsherry <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/21 15:49:46 by lsherry           #+#    #+#             */
+/*   Updated: 2022/07/21 15:49:51 by lsherry          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 //
 // Created by LudwigAndreas on 17.07.2022.
 //
@@ -23,10 +35,9 @@
 # define ANSI_CYAN "\033[1;96m"
 # define ANSI_WHITE "\033[1;97m"
 
+typedef unsigned long long	t_ull;
 
-typedef unsigned long long t_ull;
-
-typedef pthread_mutex_t t_mutex;
+typedef pthread_mutex_t		t_mutex;
 
 typedef struct s_params
 {
@@ -64,7 +75,7 @@ t_philo	*start_philo(t_params *args);
 
 void	*philo_thread(void *vargp);
 
-int aliveness(t_params *params, t_philo *philos);
+int		aliveness(t_params *params, t_philo *philos);
 
 void	philo_thinking(t_philo *philo);
 
@@ -80,7 +91,7 @@ void	pick_forks(t_philo *philo);
 
 void	raise_forks(t_philo *philo);
 
-unsigned long long get_time(void);
+t_ull	get_time(void);
 
 void	print_with_time(t_philo *philo, char *msg, t_ull ms, char *color);
 
@@ -90,5 +101,7 @@ void	wait_milliseconds(int milliseconds);
 int		ft_atoi(const char *str);
 
 int		ft_isdigit(int c);
+
+int		ft_isstrnumeric(char *str);
 
 #endif

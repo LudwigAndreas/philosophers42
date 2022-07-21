@@ -1,29 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   start_philo.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lsherry <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/21 15:50:18 by lsherry           #+#    #+#             */
+/*   Updated: 2022/07/21 15:50:19 by lsherry          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../philo.h"
 
-int aliveness(t_params *params, t_philo *philos)
+int	aliveness(t_params *params, t_philo *philos)
 {
 	int	i;
 
-	if (params->satisfied == params->num_of_philo)
-		return (0);
 	i = 0;
 	while (i < params->num_of_philo)
 	{
-		if (philos[i].last_ate + params->time_to_die <= get_time() || params->is_someone_dead)
+		if (params->satisfied == params->num_of_philo)
+			return (0);
+		if (philos[i].last_ate + params->time_to_die <= get_time()
+			|| params->is_someone_dead)
 		{
 			params->is_someone_dead = 1;
 			pthread_mutex_lock(&params->stdout_mutex);
-			printf("| %-6llums | %-3lu | %s%s%s\t\t|\n", get_time() - params->startup, (unsigned long ) i + 1,
-				   ANSI_RED, "died\t", ANSI_RESET);
+			printf("| %-6llums | %-3lu | %s%s%s\t\t|\n",
+				get_time() - params->startup, (unsigned long ) i + 1,
+				ANSI_RED, "died\t", ANSI_RESET);
 			return (0);
 		}
+		i++;
 	}
 	return (1);
 }
 
 t_mutex	*forks_constructor(t_params *params)
 {
-	t_mutex *forks;
+	t_mutex	*forks;
 	int		i;
 
 	forks = (t_mutex *) malloc(sizeof(t_mutex) * params->num_of_philo);
@@ -41,7 +56,7 @@ t_mutex	*forks_constructor(t_params *params)
 t_philo	*philo_constructor(t_params *params)
 {
 	int		i;
-	t_philo *philos;
+	t_philo	*philos;
 	t_mutex	*forks;
 
 	philos = (t_philo *) malloc(sizeof(t_philo) * params->num_of_philo);
@@ -63,7 +78,7 @@ t_philo	*start_philo(t_params *args)
 {
 	int		i;
 	int		status;
-	t_philo *philos;
+	t_philo	*philos;
 
 	args->is_someone_dead = 0;
 	args->satisfied = 0;
@@ -74,7 +89,8 @@ t_philo	*start_philo(t_params *args)
 	args->startup = get_time();
 	while (i <= args->num_of_philo)
 	{
-		status = pthread_create(&(philos[i - 1].tid), NULL, philo_thread, (void *) &philos[i - 1]);
+		status = pthread_create(&(philos[i - 1].tid), NULL, philo_thread,
+				(void *) &philos[i - 1]);
 		if (status != 0)
 			return (0);
 		i++;

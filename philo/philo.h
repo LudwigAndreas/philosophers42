@@ -12,12 +12,16 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-# define ANSI_RED "\033[91m"
-# define ANSI_GREEN "\033[1;92m"
-# define ANSI_WHITE "\033[1;97m"
-# define ANSI_YELLOW "\033[1;93m"
-# define ANSI_CYAN "\033[1;96m"
+# define ANSI_BOLD "\033[1m"
+# define ANSI_UNDERLINE "\033[4m"
 # define ANSI_RESET "\033[0m"
+# define ANSI_RED "\033[1;91m"
+# define ANSI_GREEN "\033[1;92m"
+# define ANSI_YELLOW "\033[1;93m"
+# define ANSI_BLUE "\033[1;94m"
+# define ANSI_MAGNETA "\033[1;95m"
+# define ANSI_CYAN "\033[1;96m"
+# define ANSI_WHITE "\033[1;97m"
 
 
 typedef unsigned long long t_ull;
@@ -70,12 +74,21 @@ void	philo_eating(t_philo *philo);
 
 void	philo_wait(t_philo *philo);
 
-// additional functions
-int		ft_atoi(const char *str);
+int		check_death(t_philo *philo);
+
+void	pick_forks(t_philo *philo);
+
+void	raise_forks(t_philo *philo);
 
 unsigned long long get_time(void);
 
 void	print_with_time(t_philo *philo, char *msg, t_ull ms, char *color);
 
 void	wait_milliseconds(int milliseconds);
+
+// additional functions
+int		ft_atoi(const char *str);
+
+int		ft_isdigit(int c);
+
 #endif

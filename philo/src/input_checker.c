@@ -1,27 +1,32 @@
 #include "../philo.h"
 
-// number_of_philosophers time_to_die time_to_eat time_to_sleep
-// [number_of_times_each_philosopher_must_eat]
-//
-//◦ number_of_philosophers: The number of philosophers and also the number of forks.
-//
-//◦ time_to_die (in milliseconds): If a philosopher didn’t start eating time_to_die
-//  milliseconds since the beginning of their last meal or the beginning of the simulation, they die.
-//
-//◦ time_to_eat (in milliseconds): The time it takes for a philosopher to eat.
-//  During that time, they will need to hold two forks.
-//
-//◦ time_to_sleep (in milliseconds): The time a philosopher will spend sleeping.
-//
-//◦ number_of_times_each_philosopher_must_eat (optional argument): If all
-//  philosophers have eaten at least number_of_times_each_philosopher_must_eat
-//  times, the simulation stops. If not specified, the simulation stops when a
-//  philosopher dies.
-//
-//• Each philosopher has a number ranging from 1 to number_of_philosophers.
-//
-//• Philosopher number 1 sits next to philosopher number number_of_philosophers.
-//  Any other philosopher number N sits between philosopher number N - 1 and philosopher number N + 1.
+int ft_isstrnumeric(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int param_type_validator(int argc, char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (i < argc - 1)
+	{
+		if (!ft_isstrnumeric(argv[i + 1]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 int param_validator(t_params *params)
 {
@@ -61,7 +66,12 @@ int validator(int argc, char **argv, t_params *params)
 
 	if (argc != 5 && argc != 6)
 	{
-		printf("Invalid number of arguments\n");
+		printf("Invalid number of arguments.\n");
+		return (0);
+	}
+	if (!param_type_validator(argc, argv))
+	{
+		printf("Arguments must be numeric.\n");
 		return (0);
 	}
 	params_constructor(argc, argv, params);
@@ -79,11 +89,11 @@ int input_checker(int argc, char **argv, t_params *args)
 			   " %stime_to_die%s %stime_to_eat%s "
 			   "%stime_to_sleep%s "
 			   "[%snumber_of_times_each_philosopher_must_eat%s]\n",
-			   "\033[1m", "\033[0m",
-			   "\033[4m", "\033[0m",
-			   "\033[4m", "\033[0m",
-			   "\033[4m", "\033[0m",
-			   "\033[4m", "\033[0m",
-			   "\033[4m", "\033[0m");
+			   ANSI_BOLD, ANSI_RESET,
+			   ANSI_UNDERLINE, ANSI_RESET,
+			   ANSI_UNDERLINE, ANSI_RESET,
+			   ANSI_UNDERLINE, ANSI_RESET,
+			   ANSI_UNDERLINE, ANSI_RESET,
+			   ANSI_UNDERLINE, ANSI_RESET);
 	return err_num;
 }

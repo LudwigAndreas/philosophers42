@@ -13,9 +13,8 @@ int aliveness(t_params *params, t_philo *philos)
 		{
 			params->is_someone_dead = 1;
 			pthread_mutex_lock(&params->stdout_mutex);
-			printf("| %-6llums | %-2lu | %s%s%s\t\t|\n", get_time() - params->startup, (unsigned long ) i + 1,
-				   ANSI_RED, "died", ANSI_RESET);
-//			pthread_mutex_unlock(&params->stdout_mutex);
+			printf("| %-6llums | %-3lu | %s%s%s\t\t|\n", get_time() - params->startup, (unsigned long ) i + 1,
+				   ANSI_RED, "died\t", ANSI_RESET);
 			return (0);
 		}
 	}

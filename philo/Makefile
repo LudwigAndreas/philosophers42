@@ -9,7 +9,8 @@ SRCFILE	= 	main.c\
 			philo_thread.c\
 			utils.c\
 			philo_lifecycle.c\
-			ft_atoi.c
+			ft_atoi.c\
+			ft_isdigit.c
 SRCS	= $(addprefix $(SRCDIR), $(SRCFILE))
 OBJDIR	= obj/
 OBJFILE = $(SRCFILE:.c=.o)

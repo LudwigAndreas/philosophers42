@@ -1,16 +1,25 @@
 #include "../philo_bonus.h"
 
-//memset, printf, malloc, free, write, fork, kill,
-//exit, pthread_create, pthread_detach, pthread_join,
-//usleep, gettimeofday, waitpid, sem_open, sem_close,
-//sem_post, sem_wait, sem_unlink
-
-
-int main(int argc, char **argv)
+void	start_line_printer(t_params *args)
 {
-	t_params	params;
-//	t_philo		*philos;
+	printf("NUM OF PHILO: %d\n"
+		   "TIME TO DIE: %d\n"
+		   "TIME TO EAT: %d\n"
+		   "TIME TO SLEEP: %d\n"
+		   "NUM OF MEALS: %d\n", args->num_of_philo, args->time_to_die,
+		   args->time_to_eat, args->time_to_sleep, args->num_of_meals);
+	printf("| %s%-6s%sms | %s%-4s%s | %s%-16s%s\t|\n", ANSI_MAGNETA, "TIME",
+		   ANSI_RESET, ANSI_MAGNETA, "№  ",
+		   ANSI_RESET, ANSI_MAGNETA, "PHILO ACTION", ANSI_RESET);
+}
 
-	if (input_checker(argc, argv, &params) != 1)
+int	main(int argc, char **argv)
+{
+	t_params	args;
+
+	if (input_checker(argc, argv, &args) != 1)
 		return (0);
+	start_line_printer(&args);
+	start_philo(&args);
+	return (0);
 }

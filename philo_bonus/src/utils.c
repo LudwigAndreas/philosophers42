@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../philo_bonus.h"
 
 unsigned long long	get_time(void)
 {
@@ -22,11 +22,11 @@ unsigned long long	get_time(void)
 
 void	print_with_time(t_philo *philo, char *msg, t_ull ms, char *color)
 {
-	pthread_mutex_lock(&philo->params->stdout_mutex);
+	sem_wait(philo->params->stdout_sem);
 	if (!philo->params->is_someone_dead)
 		printf("| %-6llums | %-3lu | %s%-16s%s\t|\n", ms, philo->id,
 			color, msg, ANSI_RESET);
-	pthread_mutex_unlock(&philo->params->stdout_mutex);
+	sem_post(philo->params->stdout_sem);
 }
 
 void	wait_milliseconds(int milliseconds)
@@ -36,4 +36,10 @@ void	wait_milliseconds(int milliseconds)
 	curr_time = get_time();
 	while (get_time() < curr_time + milliseconds)
 		usleep(500);
+}
+
+void	unlink_semaphores(void)
+{
+	sem_unlink("forks");
+	sem_unlink("stdout_sem");
 }

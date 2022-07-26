@@ -5,6 +5,10 @@ CFLAGS  = -pthread -D COLORED_TEXT
 SRCDIR	=	src/
 SRCFILE	= 	main.c\
 			input_checker.c\
+			start_philo.c\
+			philo_process.c\
+			philo_lifecycle.c\
+			utils.c\
 			ft_atoi.c\
 			ft_isdigit.c
 SRCS	= $(addprefix $(SRCDIR), $(SRCFILE))

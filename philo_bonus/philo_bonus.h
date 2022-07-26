@@ -8,6 +8,7 @@
 # include <sys/time.h>
 # include <pthread.h>
 # include <signal.h>
+# include <semaphore.h>
 
 # define ANSI_BOLD "\033[1m"
 # define ANSI_UNDERLINE "\033[4m"
@@ -24,6 +25,34 @@ typedef unsigned long long	t_ull;
 
 typedef pthread_mutex_t		t_mutex;
 
+//typedef struct s_fork
+//{
+//    sem_t   *forks;
+//}   t_fork;
+//
+//typedef struct s_args
+//{
+//    int     nop;
+//    int     time_to_die;
+//    int     time_to_eat;
+//    int     time_to_sleep;
+//    int     notepme;
+//    int     aliveness;
+//    t_ull   startup_time;
+//    sem_t   *stdout_sem;
+//    sem_t   *kill_all;
+//}   t_args;
+//
+//typedef struct s_philo
+//{
+//    int         pid;
+//    size_t      id;
+//    t_ull       last_ate;
+//    int         number_ate;
+//    t_args      *args;
+//    t_fork      *forks;
+//}   t_philo;
+
 typedef struct s_params
 {
 	int		num_of_philo;
@@ -33,19 +62,18 @@ typedef struct s_params
 	int		num_of_meals;
 	int		satisfied;
 	t_ull	startup;
-	t_mutex	satisfied_mutex;
-	t_mutex	stdout_mutex;
+	sem_t	*stdout_sem;
 	int		is_someone_dead;
 }	t_params;
 
 typedef struct s_philo
 {
-	pthread_t	tid;
+	pid_t		pid;
 	size_t		id;
 	t_ull		last_ate;
 	int			num_ate;
 	t_params	*params;
-	t_mutex		*fork;
+	sem_t		*forks;
 }	t_philo;
 
 int		input_checker(int argc, char **argv, t_params *args);
@@ -61,4 +89,28 @@ int		ft_atoi(const char *str);
 int		ft_isstrnumeric(char *str);
 
 int		ft_isdigit(int c);
+
+unsigned long long	get_time(void);
+
+void	print_with_time(t_philo *philo, char *msg, t_ull ms, char *color);
+
+void	wait_milliseconds(int milliseconds);
+
+void	start_philo(t_params *params);
+
+void	unlink_semaphores(void);
+
+void	start_philo_processes(t_philo *philos);
+
+void	pick_forks(t_philo *philo);
+
+void	raise_forks(t_philo *philo);
+
+void	philo_eating(t_philo *philo);
+
+void	philo_sleeping(t_philo *philo);
+
+void	philo_thinking(t_philo *philo);
+
+void	philo_process(t_philo *philo);
 #endif

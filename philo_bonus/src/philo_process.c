@@ -1,11 +1,21 @@
 #include "../philo_bonus.h"
 
+void	*cycle_check_death_thread(void	*data)
+{
+	while (check_death((t_philo *) data))
+	{
+		usleep(500);
+	}
+	return (NULL);
+}
+
 int	check_death(t_philo *philo)
 {
-//	if (philo->params->is_someone_dead
-//		|| philo->last_ate + philo->params->time_to_die <= get_time())
-//		return (0);
-	(void) philo;
+	if (philo->params->is_someone_dead == 1 || philo->last_ate + philo->params->time_to_die <= get_time())
+	{
+		sem_post(philo->params->dead_sem);
+		return (0);
+	}
 	return (1);
 }
 
@@ -24,6 +34,9 @@ void	wait_at_start(t_philo *philo)
 
 void	philo_process(t_philo *philo)
 {
+	pthread_t	tid;
+
+	pthread_create(&tid, NULL, cycle_check_death_thread, (void *) philo);
 	wait_at_start(philo);
 	while (check_death(philo))
 	{

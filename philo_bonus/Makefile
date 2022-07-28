@@ -8,6 +8,7 @@ SRCFILE	= 	main.c\
 			start_philo.c\
 			philo_process.c\
 			philo_lifecycle.c\
+			wait_philo_status.c\
 			utils.c\
 			ft_atoi.c\
 			ft_isdigit.c

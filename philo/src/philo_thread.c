@@ -37,7 +37,7 @@ void	*philo_thread(void *vargp)
 {
 	t_philo	*philo;
 
-	philo = (t_philo *)vargp;
+	philo = (t_philo *) vargp;
 	wait_at_start(philo);
 	while (check_death(philo))
 	{

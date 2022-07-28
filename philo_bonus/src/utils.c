@@ -38,8 +38,30 @@ void	wait_milliseconds(int milliseconds)
 		usleep(500);
 }
 
-void	unlink_semaphores(void)
+void	unlink_semaphores()
 {
-	sem_unlink("forks");
+	sem_unlink("satisfied_sem");
 	sem_unlink("stdout_sem");
+	sem_unlink("forks");
+	sem_unlink("dead_sem");
+}
+
+void	kill_all_philos(t_philo *philos)
+{
+	int	i;
+
+	i = 0;
+	while (i < philos[0].params->num_of_philo)
+	{
+		kill(philos[i].pid, SIGKILL);
+		i++;
+	}
+}
+
+void	close_semaphores(t_philo *philos)
+{
+	sem_close(philos[0].params->dead_sem);
+	sem_close(philos[0].params->stdout_sem);
+	sem_close(philos[0].params->satisfied_sem);
+	sem_close(philos[0].forks);
 }

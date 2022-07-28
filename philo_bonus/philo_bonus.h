@@ -25,34 +25,6 @@ typedef unsigned long long	t_ull;
 
 typedef pthread_mutex_t		t_mutex;
 
-//typedef struct s_fork
-//{
-//    sem_t   *forks;
-//}   t_fork;
-//
-//typedef struct s_args
-//{
-//    int     nop;
-//    int     time_to_die;
-//    int     time_to_eat;
-//    int     time_to_sleep;
-//    int     notepme;
-//    int     aliveness;
-//    t_ull   startup_time;
-//    sem_t   *stdout_sem;
-//    sem_t   *kill_all;
-//}   t_args;
-//
-//typedef struct s_philo
-//{
-//    int         pid;
-//    size_t      id;
-//    t_ull       last_ate;
-//    int         number_ate;
-//    t_args      *args;
-//    t_fork      *forks;
-//}   t_philo;
-
 typedef struct s_params
 {
 	int		num_of_philo;
@@ -61,9 +33,12 @@ typedef struct s_params
 	int		time_to_sleep;
 	int		num_of_meals;
 	int		satisfied;
+	sem_t	*satisfied_sem;
 	t_ull	startup;
 	sem_t	*stdout_sem;
+	sem_t	*dead_sem;
 	int		is_someone_dead;
+	int		is_all_satiety;
 }	t_params;
 
 typedef struct s_philo
@@ -90,7 +65,7 @@ int		ft_isstrnumeric(char *str);
 
 int		ft_isdigit(int c);
 
-unsigned long long	get_time(void);
+t_ull	get_time(void);
 
 void	print_with_time(t_philo *philo, char *msg, t_ull ms, char *color);
 
@@ -98,7 +73,7 @@ void	wait_milliseconds(int milliseconds);
 
 void	start_philo(t_params *params);
 
-void	unlink_semaphores(void);
+void	unlink_semaphores();
 
 void	start_philo_processes(t_philo *philos);
 
@@ -113,4 +88,12 @@ void	philo_sleeping(t_philo *philo);
 void	philo_thinking(t_philo *philo);
 
 void	philo_process(t_philo *philo);
+
+void	kill_all_philos(t_philo *philos);
+
+void	wait_philo_status(t_params *params);
+
+void	close_semaphores(t_philo *philos);
+
+int		check_death(t_philo *philo);
 #endif

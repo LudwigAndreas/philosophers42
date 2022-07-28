@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wait_philo_status.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lsherry <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/28 17:39:37 by lsherry           #+#    #+#             */
+/*   Updated: 2022/07/28 17:39:39 by lsherry          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../philo_bonus.h"
 
 void	*check_satiety_thread(void *data)
@@ -24,29 +36,36 @@ void	*check_death_thread(void *data)
 	sem_wait(params->dead_sem);
 	sem_wait(params->stdout_sem);
 	printf("| %-6llums | %-3lu | %s%s%s\t\t|\n",
-		   get_time() - params->startup, (unsigned long ) i + 1,
-		   ANSI_RED, "died\t", ANSI_RESET);
-//	sem_post(params->stdout_sem);
+		get_time() - params->startup, (unsigned long ) i + 1,
+		ANSI_RED, "died\t", ANSI_RESET);
 	params->is_someone_dead = 1;
 	return (NULL);
 }
 
 void	wait_philo_status(t_params *params)
 {
-	int status1;
-	int status2;
+	int			status1;
+	int			status2;
 	pthread_t	death_tid;
 	pthread_t	satiety_tid;
 
 	status1 = pthread_create(&death_tid, NULL, check_death_thread,
-							(void *) params);
+			(void *) params);
 	status2 = pthread_create(&satiety_tid, NULL, check_satiety_thread,
-							(void *) params);
+			(void *) params);
 	if (status1 != 0 || status2 != 0)
-		return;
+		return ;
 	while (params->is_someone_dead == 0 && params->is_all_satiety == 0)
 	{
 		usleep(500);
 	}
 //	usleep(100000);
+}
+
+void	unlink_semaphores(void)
+{
+	sem_unlink("satisfied_sem");
+	sem_unlink("stdout_sem");
+	sem_unlink("forks");
+	sem_unlink("dead_sem");
 }

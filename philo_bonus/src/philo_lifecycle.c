@@ -6,7 +6,7 @@
 /*   By: lsherry <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 15:50:10 by lsherry           #+#    #+#             */
-/*   Updated: 2022/07/21 15:50:11 by lsherry          ###   ########.fr       */
+/*   Updated: 2022/07/28 17:39:17 by lsherry          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void	pick_forks(t_philo *philo)
 	{
 		sem_wait(philo->forks);
 		print_with_time(philo, "has taken a fork",
-						get_time() - philo->params->startup, ANSI_CYAN);
+			get_time() - philo->params->startup, ANSI_CYAN);
 		sem_wait(philo->forks);
 		print_with_time(philo, "has taken a fork",
-						get_time() - philo->params->startup, ANSI_CYAN);
+			get_time() - philo->params->startup, ANSI_CYAN);
 	}
 }
 

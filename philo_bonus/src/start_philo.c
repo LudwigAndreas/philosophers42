@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   start_philo.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lsherry <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/28 17:39:27 by lsherry           #+#    #+#             */
+/*   Updated: 2022/07/28 17:39:29 by lsherry          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../philo_bonus.h"
 
 sem_t	*forks_constructor(t_params *params)
@@ -7,7 +19,7 @@ sem_t	*forks_constructor(t_params *params)
 	forks = malloc(sizeof(sem_t *));
 	if (!forks)
 		return (NULL);
-	memset(forks, 0, sizeof(* forks));
+	memset(forks, 0, sizeof(forks *));
 	forks = sem_open("forks", O_CREAT, S_IRWXU, params->num_of_philo);
 	return (forks);
 }
@@ -35,8 +47,7 @@ t_philo	*philo_constructor(t_params *params)
 
 void	start_philo(t_params *params)
 {
-	t_philo *philos;
-
+	t_philo	*philos;
 
 	unlink_semaphores(params);
 	params->satisfied = 0;
@@ -68,7 +79,8 @@ void	start_philo_processes(t_philo *philos)
 		{
 			philo_process(&philos[i]);
 			exit(0);
-		} else if (pid < 0)
+		}
+		else if (pid < 0)
 			kill_all_philos(philos);
 		else
 			philos[i].pid = pid;
@@ -77,11 +89,3 @@ void	start_philo_processes(t_philo *philos)
 	wait_philo_status(params);
 	kill_all_philos(philos);
 }
-
-//после начала в основном процессе запускается 2 потока, кадждый ждет своего
-// первый ждет смерти любого из потоков, второй ждет, пока все наедятся с помощю
-// while (params.num_of_philo)
-//{
-//		sem_wait(philo.satisfied);
-//}
-// exit(0);

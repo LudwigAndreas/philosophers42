@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lsherry <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/28 17:38:49 by lsherry           #+#    #+#             */
+/*   Updated: 2022/07/28 17:38:50 by lsherry          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_BONUS_H
-#define PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 # include <stdio.h>
 # include <string.h>
@@ -73,7 +85,7 @@ void	wait_milliseconds(int milliseconds);
 
 void	start_philo(t_params *params);
 
-void	unlink_semaphores();
+void	unlink_semaphores(void);
 
 void	start_philo_processes(t_philo *philos);
 

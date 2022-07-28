@@ -1,17 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_process.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lsherry <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/28 17:39:22 by lsherry           #+#    #+#             */
+/*   Updated: 2022/07/28 17:39:23 by lsherry          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../philo_bonus.h"
 
 void	*cycle_check_death_thread(void	*data)
 {
 	while (check_death((t_philo *) data))
-	{
 		usleep(500);
-	}
 	return (NULL);
 }
 
 int	check_death(t_philo *philo)
 {
-	if (philo->params->is_someone_dead == 1 || philo->last_ate + philo->params->time_to_die <= get_time())
+	if (philo->params->is_someone_dead == 1
+		|| philo->last_ate + philo->params->time_to_die <= get_time())
 	{
 		sem_post(philo->params->dead_sem);
 		return (0);
@@ -27,7 +38,7 @@ void	wait_at_start(t_philo *philo)
 			&& (int ) philo->id != philo->params->num_of_philo)
 			wait_milliseconds(philo->params->time_to_eat * .95);
 		else if (philo->params->num_of_philo % 2 == 1
-				 && (int ) philo->id == philo->params->num_of_philo)
+			&& (int ) philo->id == philo->params->num_of_philo)
 			wait_milliseconds(philo->params->time_to_eat);
 	}
 }
@@ -46,5 +57,5 @@ void	philo_process(t_philo *philo)
 		philo_sleeping(philo);
 		philo_thinking(philo);
 	}
-	return;
+	return ;
 }

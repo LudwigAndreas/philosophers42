@@ -34,11 +34,11 @@ void	*check_death_thread(void *data)
 	params = (t_params *) data;
 	sem_wait(params->dead_sem);
 	sem_wait(params->dead_sem);
+	params->is_someone_dead = 1;
 	sem_wait(params->stdout_sem);
-	printf("| %-6llums | %-3lu | %s%s%s\t\t|\n",
+	printf("%-6llu %-3lu %s%s%s\n",
 		get_time() - params->startup, (unsigned long ) i + 1,
 		ANSI_RED, "died\t", ANSI_RESET);
-	params->is_someone_dead = 1;
 	return (NULL);
 }
 
@@ -59,13 +59,12 @@ void	wait_philo_status(t_params *params)
 	{
 		usleep(500);
 	}
-//	usleep(100000);
 }
 
 void	unlink_semaphores(void)
 {
+	sem_unlink("forks");
+	sem_unlink("is_someone_dead");
 	sem_unlink("satisfied_sem");
 	sem_unlink("stdout_sem");
-	sem_unlink("forks");
-	sem_unlink("dead_sem");
 }

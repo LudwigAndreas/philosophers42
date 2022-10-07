@@ -24,6 +24,7 @@ int	check_death(t_philo *philo)
 	if (philo->params->is_someone_dead == 1
 		|| philo->last_ate + philo->params->time_to_die <= get_time())
 	{
+		philo->params->is_someone_dead = 1;
 		sem_post(philo->params->dead_sem);
 		return (0);
 	}

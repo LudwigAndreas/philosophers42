@@ -20,12 +20,12 @@ unsigned long long	get_time(void)
 	return (curr_time.tv_sec * 1000 + curr_time.tv_usec / 1000);
 }
 
-void	print_with_time(t_philo *philo, char *msg, t_ull ms, char *color)
+void	print_with_time(t_philo *philo, char *msg, char *color)
 {
 	sem_wait(philo->params->stdout_sem);
 	if (!philo->params->is_someone_dead)
-		printf("| %-6llums | %-3lu | %s%-16s%s\t|\n", ms, philo->id,
-			color, msg, ANSI_RESET);
+		printf("%-6llu %-3lu %s%-16s%s\n", get_time() - philo->params->startup,
+			philo->id, color, msg, ANSI_RESET);
 	sem_post(philo->params->stdout_sem);
 }
 
@@ -34,8 +34,12 @@ void	wait_milliseconds(int milliseconds)
 	t_ull	curr_time;
 
 	curr_time = get_time();
-	while (get_time() < curr_time + milliseconds)
-		usleep(500);
+	while (1)
+	{
+		if (get_time() >= curr_time + milliseconds)
+			break ;
+		usleep(100);
+	}
 }
 
 void	kill_all_philos(t_philo *philos)
@@ -52,8 +56,8 @@ void	kill_all_philos(t_philo *philos)
 
 void	close_semaphores(t_philo *philos)
 {
-	sem_close(philos[0].params->dead_sem);
-	sem_close(philos[0].params->stdout_sem);
-	sem_close(philos[0].params->satisfied_sem);
 	sem_close(philos[0].forks);
+	sem_close(philos[0].params->satisfied_sem);
+	sem_close(philos[0].params->stdout_sem);
+	sem_close(philos[0].params->dead_sem);
 }

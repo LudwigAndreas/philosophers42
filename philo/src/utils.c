@@ -16,24 +16,36 @@ unsigned long long	get_time(void)
 {
 	struct timeval	curr_time;
 
-	gettimeofday(&curr_time, NULL);
+	gettimeofday(&curr_time, 0);
 	return (curr_time.tv_sec * 1000 + curr_time.tv_usec / 1000);
 }
 
-void	print_with_time(t_philo *philo, char *msg, t_ull ms, char *color)
+/*void	print_with_time(t_philo *philo, char *msg, char *color)
 {
+	(void ) color;
 	pthread_mutex_lock(&philo->params->stdout_mutex);
-	if (!philo->params->is_someone_dead)
-		printf("| %-6llums | %-3lu | %s%-16s%s\t|\n", ms, philo->id,
-			color, msg, ANSI_RESET);
+	printf("%llu %lu %s\n", get_time() - philo->params->startup,
+		   philo->id, msg);
+	pthread_mutex_unlock(&philo->params->stdout_mutex);
+}*/
+
+void	print_with_time(t_philo *philo, char *msg, char *color)
+{
+	(void ) color;
+	pthread_mutex_lock(&philo->params->stdout_mutex);
+	printf("%-6llu %-3lu %s%-16s%s\n", get_time() - philo->params->startup,
+		philo->id, color, msg, ANSI_RESET);
 	pthread_mutex_unlock(&philo->params->stdout_mutex);
 }
 
 void	wait_milliseconds(int milliseconds)
 {
-	t_ull	curr_time;
+	const t_ull	curr_time = get_time();
 
-	curr_time = get_time();
-	while (get_time() < curr_time + milliseconds)
-		usleep(500);
+	while (1)
+	{
+		if (get_time() >= curr_time + milliseconds)
+			break ;
+		usleep(100);
+	}
 }

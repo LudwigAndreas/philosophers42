@@ -26,7 +26,7 @@ void	wait_at_start(t_philo *philo)
 	{
 		if (philo->id % 2 == 1
 			&& (int ) philo->id != philo->params->num_of_philo)
-			wait_milliseconds(philo->params->time_to_eat * .95);
+			wait_milliseconds(philo->params->time_to_eat * 0.95);
 		else if (philo->params->num_of_philo % 2 == 1
 			&& (int ) philo->id == philo->params->num_of_philo)
 			wait_milliseconds(philo->params->time_to_eat);

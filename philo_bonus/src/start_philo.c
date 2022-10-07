@@ -16,10 +16,6 @@ sem_t	*forks_constructor(t_params *params)
 {
 	sem_t	*forks;
 
-	forks = malloc(sizeof(sem_t *));
-	if (!forks)
-		return (NULL);
-	memset(forks, 0, sizeof(forks *));
 	forks = sem_open("forks", O_CREAT, S_IRWXU, params->num_of_philo);
 	return (forks);
 }
@@ -49,7 +45,7 @@ void	start_philo(t_params *params)
 {
 	t_philo	*philos;
 
-	unlink_semaphores(params);
+	unlink_semaphores();
 	params->satisfied = 0;
 	philos = philo_constructor(params);
 	params->startup = get_time();
@@ -59,8 +55,7 @@ void	start_philo(t_params *params)
 	params->stdout_sem = sem_open("stdout_sem", O_CREAT, S_IRWXU, 1);
 	params->satisfied_sem = sem_open("satisfied_sem", O_CREAT, S_IRWXU, 1);
 	start_philo_processes(philos);
-//	close_semaphores(philos);
-	unlink_semaphores(params);
+	unlink_semaphores();
 	exit(0);
 }
 

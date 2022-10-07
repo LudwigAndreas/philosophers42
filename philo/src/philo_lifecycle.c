@@ -14,14 +14,12 @@
 
 void	philo_thinking(t_philo *philo)
 {
-	print_with_time(philo, "is thinking",
-		get_time() - philo->params->startup, ANSI_YELLOW);
+	print_with_time(philo, "is thinking", ANSI_YELLOW);
 }
 
 void	philo_sleeping(t_philo *philo)
 {
-	print_with_time(philo, "is sleeping",
-		get_time() - philo->params->startup, ANSI_WHITE);
+	print_with_time(philo, "is sleeping", ANSI_WHITE);
 	wait_milliseconds(philo->params->time_to_sleep);
 }
 
@@ -29,8 +27,7 @@ void	philo_eating(t_philo *philo)
 {
 	pick_forks(philo);
 	philo->num_ate += 1;
-	print_with_time(philo, "is eating",
-		get_time() - philo->params->startup, ANSI_GREEN);
+	print_with_time(philo, "is eating", ANSI_GREEN);
 	wait_milliseconds(philo->params->time_to_eat);
 	philo->last_ate = get_time();
 	raise_forks(philo);
@@ -47,13 +44,11 @@ void	pick_forks(t_philo *philo)
 	if (check_death(philo))
 	{
 		pthread_mutex_lock(&philo->fork[philo->id
-										% philo->params->num_of_philo]);
-		print_with_time(philo, "has taken a fork",
-						get_time() - philo->params->startup, ANSI_CYAN);
+			% philo->params->num_of_philo]);
+		print_with_time(philo, "has taken a fork", ANSI_CYAN);
 		pthread_mutex_lock(&philo->fork[(philo->id + 1)
-										% philo->params->num_of_philo]);
-		print_with_time(philo, "has taken a fork",
-						get_time() - philo->params->startup, ANSI_CYAN);
+			% philo->params->num_of_philo]);
+		print_with_time(philo, "has taken a fork", ANSI_CYAN);
 	}
 }
 
@@ -62,8 +57,8 @@ void	raise_forks(t_philo *philo)
 	if (check_death(philo))
 	{
 		pthread_mutex_unlock(&philo->fork[philo->id - 1
-													  % philo->params->num_of_philo]);
+			% philo->params->num_of_philo]);
 		pthread_mutex_unlock(&philo->fork[(philo->id)
-										  % philo->params->num_of_philo]);
+			% philo->params->num_of_philo]);
 	}
 }

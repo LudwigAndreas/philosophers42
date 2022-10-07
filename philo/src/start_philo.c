@@ -19,18 +19,18 @@ int	aliveness(t_params *params, t_philo *philos)
 	i = 0;
 	while (i < params->num_of_philo)
 	{
-		if (params->satisfied == params->num_of_philo)
-			return (0);
 		if (philos[i].last_ate + params->time_to_die <= get_time()
 			|| params->is_someone_dead)
 		{
-			params->is_someone_dead = 1;
 			pthread_mutex_lock(&params->stdout_mutex);
-			printf("| %-6llums | %-3lu | %s%s%s\t\t|\n",
+			params->is_someone_dead = 1;
+			printf("%-6llu %-3lu %s%s%s\n",
 				get_time() - params->startup, (unsigned long ) i + 1,
 				ANSI_RED, "died\t", ANSI_RESET);
 			return (0);
 		}
+		if (params->satisfied == params->num_of_philo)
+			return (0);
 		i++;
 	}
 	return (1);

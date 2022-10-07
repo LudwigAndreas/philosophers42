@@ -10,10 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//
-// Created by LudwigAndreas on 17.07.2022.
-//
-
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -93,7 +89,7 @@ void	raise_forks(t_philo *philo);
 
 t_ull	get_time(void);
 
-void	print_with_time(t_philo *philo, char *msg, t_ull ms, char *color);
+void	print_with_time(t_philo *philo, char *msg, char *color);
 
 void	wait_milliseconds(int milliseconds);
 

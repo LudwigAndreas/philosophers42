@@ -12,15 +12,9 @@
 
 #include "../philo.h"
 
-void	start_line_printer(t_params *args)
+void	start_line_printer(void)
 {
-	printf("NUM OF PHILO: %d\n"
-		"TIME TO DIE: %d\n"
-		"TIME TO EAT: %d\n"
-		"TIME TO SLEEP: %d\n"
-		"NUM OF MEALS: %d\n", args->num_of_philo, args->time_to_die,
-		args->time_to_eat, args->time_to_sleep, args->num_of_meals);
-	printf("| %s%-6s%sms | %s%-4s%s | %s%-16s%s\t|\n", ANSI_MAGNETA, "TIME",
+	printf("%s%-6s%s %s%-4s%s %s%-16s%s\n", ANSI_MAGNETA, "TIME",
 		ANSI_RESET, ANSI_MAGNETA, "№  ",
 		ANSI_RESET, ANSI_MAGNETA, "PHILO ACTION", ANSI_RESET);
 }
@@ -46,13 +40,13 @@ int	main(int argc, char **argv)
 
 	if (input_checker(argc, argv, &args) != 1)
 		return (0);
-	start_line_printer(&args);
+	start_line_printer();
 	philos = start_philo(&args);
 	while (aliveness(&args, philos))
 	{
 		usleep(500);
 	}
-	usleep(100000);
+	usleep(150000);
 	destroy_mutex(&args, philos);
 	return (0);
 }

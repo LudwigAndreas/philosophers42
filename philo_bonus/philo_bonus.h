@@ -79,7 +79,7 @@ int		ft_isdigit(int c);
 
 t_ull	get_time(void);
 
-void	print_with_time(t_philo *philo, char *msg, t_ull ms, char *color);
+void	print_with_time(t_philo *philo, char *msg, char *color);
 
 void	wait_milliseconds(int milliseconds);
 

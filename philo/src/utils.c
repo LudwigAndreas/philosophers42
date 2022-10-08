@@ -31,7 +31,6 @@ unsigned long long	get_time(void)
 
 void	print_with_time(t_philo *philo, char *msg, char *color)
 {
-	(void ) color;
 	pthread_mutex_lock(&philo->params->stdout_mutex);
 	printf("%-6llu %-3lu %s%-16s%s\n", get_time() - philo->params->startup,
 		philo->id, color, msg, ANSI_RESET);

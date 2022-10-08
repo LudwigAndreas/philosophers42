@@ -34,11 +34,11 @@ void	*check_death_thread(void *data)
 	params = (t_params *) data;
 	sem_wait(params->dead_sem);
 	sem_wait(params->dead_sem);
-	params->is_someone_dead = 1;
 	sem_wait(params->stdout_sem);
 	printf("%-6llu %-3lu %s%s%s\n",
 		get_time() - params->startup, (unsigned long ) i + 1,
 		ANSI_RED, "died\t", ANSI_RESET);
+	params->is_someone_dead = 1;
 	return (NULL);
 }
 

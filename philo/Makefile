@@ -22,15 +22,15 @@ PHILHDR = philo.h
 
 all: $(NAME)
 
-$(OBJDIR)%.o: $(SRCDIR)%.c $(MSHHDR)
+$(OBJDIR)%.o: $(SRCDIR)%.c $(PHILHDR)
 	@mkdir -p $(OBJDIR)
 	@$(CC) $(FLAGS) $(CFLAGS) -c $< -o $@ -include $(PHILHDR)
 	@printf "\033[1;36m/\033[0m"
 
-$(NAME): $(OBJS) $(OBJMAIN) $(MSHHDR)
+$(NAME): $(OBJS) $(OBJMAIN) $(PHILHDR)
 	@echo
 	@echo "\033[1;33m"$(NAME) "objs is up to date."'\033[0m'
-	@$(CC) $(FLAGS) $(CFLAGS) $(LFLAGS) $(OBJS) $(OBJMAIN) $(LFLAGS) -o $(NAME)
+	@$(CC) $(FLAGS) $(CFLAGS) $(LFLAGS) $(OBJS) $(OBJMAIN) $(LFLAGS) -o $(NAME) -include $(PHILHDR)
 	@echo "\033[1;33m"$(NAME) "is up to date."'\033[0m'
 
 clean:
